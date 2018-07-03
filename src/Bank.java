@@ -37,6 +37,7 @@ public class Bank {
 
     public static void main(String [ ] args)
     {
+        Scanner scan= new Scanner(System.in);
         Scanner scanner = null;
         try {
             scanner = new Scanner(new File("D:/Projects/abc.csv"));
@@ -73,19 +74,30 @@ public class Bank {
         Collections.sort(InvestorsArray);
 
         int numcli=0;
-        if (scanner.hasNextLine()) numcli= Integer.parseInt(scanner.nextLine());
+        System.out.print("HELLO FRIEND!");
+        System.out.print("Enter desired number of clients=");
+        numcli= Integer.parseInt(scan.nextLine());
         for (int i=1;i<=numcli;i++)
         {
             Client c1 = new Client();
-            text=scanner.nextLine();
-            String[] line= text.split(",");
-            c1.setName(line[0]);
-            c1.setSurname(line[1]);
-            c1.setNumber(line[2]);
-            c1.setEmail(line[3]);
-            c1.setSum(Integer.parseInt(line[4]));
-            c1.setPeriod(Integer.parseInt(line[5]));
-
+            System.out.print("Client name=");
+            text = scan.nextLine();
+            c1.setName(text);
+            System.out.print("Client surname=");
+            text = scan.nextLine();
+            c1.setSurname(text);
+            System.out.print("Client phone number=");
+            text = scan.nextLine();
+            c1.setNumber(text);
+            System.out.print("Client email=");
+            text = scan.nextLine();
+            c1.setEmail(text);
+            System.out.print("Client sum=");
+            int num = Integer.parseInt(scan.nextLine());
+            c1.setSum(num);
+            System.out.print("Client desired period in months=");
+            num = Integer.parseInt(scan.nextLine());
+            c1.setPeriod(num);
             ClientsArray.add(c1);
         }
         scanner.close();
