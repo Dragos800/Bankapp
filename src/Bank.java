@@ -31,7 +31,7 @@ public class Bank {
             }
             if (csum>=c1.getSum()) break;
         }
-        if (csum==0) return new MyResult(0,0,0);
+        if (csum>c1.getSum()) return new MyResult(0,0,0);
         else return new MyResult(csum,su,rate);
     }
 
@@ -53,6 +53,7 @@ public class Bank {
         ArrayList<Investor> InvestorsArray = new ArrayList<Investor>();
         ArrayList<Client> ClientsArray = new ArrayList<Client>();
         String text;
+        int suminv=0;
         for (int i=1;i<=numinv;i++)
         {
             Investor i1=new Investor();
@@ -65,7 +66,7 @@ public class Bank {
             i1.setEmail(line[3]);
             i1.setSum(Integer.parseInt(line[4]));
             i1.setInterest(Integer.parseInt(line[5]));
-
+            suminv+=i1.getSum();
             InvestorsArray.add(i1);
         }
 
@@ -91,8 +92,10 @@ public class Bank {
         if (numcli>0) {
             for (int i = 0; i < numcli; i++) {
                 MyResult myResult =  bestinterest(InvestorsArray, ClientsArray.get(i));
-                if (myResult.getFirst()==0) System.out.print("INSUFFICIENT FOUNDS");
-                else  System.out.println("For client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname()+" total sum is "+myResult.getSecond()+" lei with the interest rate "+myResult.getThird()*100/ClientsArray.get(i).getSum()+"% and a monthly rate of "+new DecimalFormat("#0.000").format(myResult.getSecond()/ClientsArray.get(i).getPeriod())+" lei");
+                DecimalFormat df = new DecimalFormat("#0.000");
+                suminv=suminv-ClientsArray.get(i).getSum();
+                if (suminv<0) System.out.print("INSUFFICIENT FOUNDS for client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname());
+                else  System.out.println("For client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname()+" total sum is "+myResult.getSecond()+" lei with the interest rate "+df.format(myResult.getThird()*100/ClientsArray.get(i).getSum())+"% and a monthly rate of "+df.format(myResult.getSecond()/ClientsArray.get(i).getPeriod())+" lei");
             }
         }
 
