@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Bank {
 
     public static MyResult bestinterest(ArrayList<Investor> InvestorsArrayAux,Client c1)
@@ -74,40 +77,124 @@ public class Bank {
         Collections.sort(InvestorsArray);
 
         int numcli=0;
-        System.out.print("HELLO FRIEND!");
-        System.out.print("Enter desired number of clients=");
-        numcli= Integer.parseInt(scan.nextLine());
+        boolean ok=false;
+        System.out.println("HELLO FRIEND!");
+        while (ok==false) {
+            System.out.print("Enter desired number of clients=");
+            String x = scan.nextLine();
+            if (x.matches(".*\\d+.*"))
+            {
+                numcli = Integer.parseInt(x);
+                ok=true;
+            }
+            else {
+                System.out.println("Please insert a number!");
+            }
+        }
+
         for (int i=1;i<=numcli;i++)
         {
             Client c1 = new Client();
-            System.out.print("Client name=");
-            text = scan.nextLine();
-            c1.setName(text);
-            System.out.print("Client surname=");
-            text = scan.nextLine();
-            c1.setSurname(text);
-            System.out.print("Client phone number=");
-            text = scan.nextLine();
-            c1.setNumber(text);
-            System.out.print("Client email=");
-            text = scan.nextLine();
-            c1.setEmail(text);
-            System.out.print("Client sum=");
-            int num = Integer.parseInt(scan.nextLine());
-            c1.setSum(num);
-            System.out.print("Client desired period in months=");
-            num = Integer.parseInt(scan.nextLine());
-            c1.setPeriod(num);
+
+            //Reading valid client name
+            ok=false;
+            while (ok==false) {
+                System.out.print("Client name=");
+                text = scan.nextLine();
+                if (text != null && !text.isEmpty() && !text.matches(".*\\d+.*")) {
+                    c1.setName(text);
+                    ok = true;
+                }
+                else System.out.println("Please enter the name!");
+            }
+
+            //Reading valid client surname
+            ok=false;
+            while (ok==false) {
+                System.out.print("Client surname=");
+                text = scan.nextLine();
+                if (text != null && !text.isEmpty() && !text.matches(".*\\d+.*")) {
+                    c1.setSurname(text);
+                    ok = true;
+                }
+                else System.out.println("Please enter the surname!");
+            }
+
+            //Reading valid phone number
+            ok=false;
+            while (ok==false)
+            {
+                System.out.print("Client phone number=");
+                text = scan.nextLine();
+                if (text != null && !text.isEmpty() && (Pattern.matches("[a-zA-Z]", text) == false) && text.length()>=10 && text.length()<=11) {
+                    c1.setNumber(text);
+                    ok = true;
+                }
+                else System.out.println("Please enter a valid number!");
+                c1.setNumber(text);
+            }
+
+            //Reading valid client email
+            ok=false;
+            while (ok==false) {
+                System.out.print("Client email=");
+                text = scan.nextLine();
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(text);
+                boolean matchFound = m.matches();
+                if (matchFound) {
+                    c1.setEmail(text);
+                    ok=true;
+                }
+                else {
+                    System.out.println("Please enter a valid email address!");
+                }
+            }
+
+            //Reading valid client ammount
+            ok=false;
+            while (ok==false) {
+                System.out.print("Enter desired ammount=");
+                String x = scan.nextLine();
+                if (x.matches(".*\\d+.*"))
+                {
+                    c1.setSum(Integer.parseInt(x));
+                    ok=true;
+                }
+                else {
+                    System.out.println("Please insert a number!");
+                }
+            }
+
+            //Reading valid period in months
+            ok=false;
+            while (ok==false) {
+                System.out.print("Enter desired period in months=");
+                String x = scan.nextLine();
+                if (x.matches(".*\\d+.*"))
+                {
+                    c1.setPeriod(Integer.parseInt(x));
+                    ok=true;
+                }
+                else {
+                    System.out.println("Please insert a number!");
+                }
+            }
+
             ClientsArray.add(c1);
         }
         scanner.close();
+
         if (numcli>0) {
             for (int i = 0; i < numcli; i++) {
                 MyResult myResult =  bestinterest(InvestorsArray, ClientsArray.get(i));
                 DecimalFormat df = new DecimalFormat("#0.000");
                 suminv=suminv-ClientsArray.get(i).getSum();
-                if (suminv<0) System.out.print("INSUFFICIENT FOUNDS for client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname());
-                else  System.out.println("For client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname()+" total sum is "+myResult.getSecond()+" lei with the interest rate "+df.format(myResult.getThird()*100/ClientsArray.get(i).getSum())+"% and a monthly rate of "+df.format(myResult.getSecond()/ClientsArray.get(i).getPeriod())+" lei");
+
+                if (suminv<0)
+                    System.out.print("INSUFFICIENT FOUNDS for client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname());
+                else
+                    System.out.println("For client named "+ClientsArray.get(i).getName()+" surnamed "+ClientsArray.get(i).getSurname()+" total sum is "+myResult.getSecond()+" lei with the interest rate "+df.format(myResult.getThird()*100/ClientsArray.get(i).getSum())+"% and a monthly rate of "+df.format(myResult.getSecond()/ClientsArray.get(i).getPeriod())+" lei");
             }
         }
 
