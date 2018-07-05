@@ -40,9 +40,12 @@ public class Bank {
 
                 if (TotalSum < 0)
                     System.out.print("INSUFFICIENT FOUNDS for client named " + ClientsArray.get(i).getName() + " surnamed " + ClientsArray.get(i).getSurname());
-                else
-                    System.out.println("For client named " + ClientsArray.get(i).getName() + " surnamed " + ClientsArray.get(i).getSurname() + " total sum is " + myResult.getSecond() + " lei with the interest rate " + df.format(myResult.getThird() * 100 / ClientsArray.get(i).getSum()) + "% and a monthly rate of " + df.format(myResult.getSecond() / ClientsArray.get(i).getPeriod()) + " lei");
-            }
+                else {
+                    System.out.print("For client named " + ClientsArray.get(i).getName() + " surnamed " + ClientsArray.get(i).getSurname());
+                    System.out.print("total sum is " + myResult.getSecond() + " lei ");
+                    System.out.print("with the interest rate " + df.format(myResult.getThird() * 100 / ClientsArray.get(i).getSum())+"% ");
+                    System.out.print("and a monthly rate of " + df.format(myResult.getSecond() / ClientsArray.get(i).getPeriod()) + " lei");
+                }}
         }
     }
 
