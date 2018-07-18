@@ -5,6 +5,15 @@ public class Investor implements Comparable<Investor>{
     public Investor() {
     }
 
+    public Investor(String s, String s1, String s2, String s3, double v, double v1) {
+        this.name=s;
+        this.surname=s1;
+        this.number=s2;
+        this.email=s3;
+        this.sum=v;
+        this.interest=v1;
+    }
+
     public String getName() {
         return name;
     }
